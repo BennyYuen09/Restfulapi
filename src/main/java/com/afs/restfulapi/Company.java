@@ -3,10 +3,12 @@ package com.afs.restfulapi;
 import java.util.List;
 
 public class Company {
+    private final Integer id;
     private final String name;
     private final List<Employee> employeeList;
 
-    public Company(String name, List<Employee> employeeList){
+    public Company(Integer id, String name, List<Employee> employeeList){
+        this.id = id;
         this.name = name;
         this.employeeList = employeeList;
     }
@@ -17,5 +19,9 @@ public class Company {
 
     public String getName() {
         return name;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }
