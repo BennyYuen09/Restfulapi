@@ -38,4 +38,12 @@ public class Employee {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public void updateData(Employee employee){
+        this.id = employee.id;
+        this.name = employee.name;
+        this.age = employee.age;
+        this.gender = employee.gender;
+        this.salary = employee.salary;
+    }
 }

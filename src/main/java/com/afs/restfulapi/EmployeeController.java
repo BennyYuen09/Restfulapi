@@ -1,5 +1,7 @@
 package com.afs.restfulapi;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +15,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable("id") int id) {
+    public Employee getEmployeeById(@PathVariable("id") Integer id) {
         return new EmployeeRepository().getEmployeeById(id);
     }
 
@@ -31,5 +33,19 @@ public class EmployeeController {
     @PostMapping
     public Employee addEmployee(@RequestBody Employee employee){
         return new EmployeeRepository().addEmployee(employee);
+    }
+
+    @PutMapping("/{id}")
+    public Employee updateEmployeeById(@PathVariable("id") Integer id, @RequestBody Employee employee){
+        return new EmployeeRepository().updateEmployee(id, employee);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Integer id){
+        boolean isRemoved = new EmployeeRepository().deleteEmployeeById(id);
+        if (isRemoved){
+            return new ResponseEntity<>("Delete Employee ID: " + id, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EmployeeRepository {
-    private List<Employee> employeeList;
+    private final List<Employee> employeeList;
 
     public EmployeeRepository() {
         this.employeeList = new ArrayList<>();
@@ -22,35 +22,47 @@ public class EmployeeRepository {
     public Employee getEmployeeById(Integer id) {
         return employeeList
                 .stream()
-                .filter(employee -> employee.getId() == id)
+                .filter(employee -> employee.getId().equals(id))
                 .findFirst()
                 .orElseThrow(EmployeeNotFoundException::new);
     }
 
     public List<Employee> getEmployeeListByPage(int page, int pageSize) {
-        List<Employee> employeeList =
-                this.employeeList
+        return this.employeeList
                 .stream()
-                .skip(pageSize * page)
+                .skip((long) pageSize * page)
                 .limit(pageSize)
                 .collect(Collectors.toList());
-        return employeeList;
     }
 
-    public List<Employee> getEmployeeListByGender(String gender){
+    public List<Employee> getEmployeeListByGender(String gender) {
         return employeeList
                 .stream()
                 .filter(employee -> employee.getGender().equals(gender))
                 .collect(Collectors.toList());
     }
 
-    public Employee addEmployee(Employee employee){
+    public Employee addEmployee(Employee employee) {
         Integer newID = employeeList
-                        .stream()
-                        .mapToInt(Employee::getId)
-                        .max()
-                        .orElse(0) + 1;
+                .stream()
+                .mapToInt(Employee::getId)
+                .max()
+                .orElse(0) + 1;
         employee.setId(newID);
         return employee;
+    }
+
+    public Employee updateEmployee(Integer id, Employee employee) {
+        Employee originEmployee = getEmployeeById(id);
+        if (!originEmployee.getId().equals(employee.getId())) {
+            throw new EmployeeNotFoundException();
+        }
+        originEmployee.updateData(employee);
+        return originEmployee;
+    }
+
+    public boolean deleteEmployeeById(Integer id){
+        Employee employee = getEmployeeById(id);
+        return this.employeeList.remove(employee);
     }
 }
