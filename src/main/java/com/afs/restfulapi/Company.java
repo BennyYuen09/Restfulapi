@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Company {
     private Integer id;
-    private final String name;
-    private final List<Employee> employeeList;
+    private String name;
+    private List<Employee> employeeList;
 
     public Company(Integer id, String name, List<Employee> employeeList){
         this.id = id;
@@ -27,5 +27,11 @@ public class Company {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void updateData(Company company) {
+        this.id = company.id;
+        this.name = company.name;
+        this.employeeList = company.employeeList;
     }
 }

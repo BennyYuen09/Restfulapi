@@ -44,4 +44,13 @@ public class CompanyRepository {
         companyList.add(company);
         return company;
     }
+
+    public Company updateCompany(Integer id, Company company) {
+        Company companyEmployee = getCompanyById(id);
+        if (!companyEmployee.getId().equals(company.getId())) {
+            throw new EmployeeNotFoundException();
+        }
+        companyEmployee.updateData(company);
+        return companyEmployee;
+    }
 }
