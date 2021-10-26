@@ -2,6 +2,7 @@ package com.afs.restfulapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CompanyRepository {
     private final List<Company> companyList;
@@ -23,5 +24,13 @@ public class CompanyRepository {
                 .filter(company -> company.getId().equals(id))
                 .findFirst()
                 .orElseThrow(CompanyNotFoundException::new);
+    }
+
+    public List<Company> getCompanyByPage(int page, int pageSize) {
+        return this.companyList
+                .stream()
+                .skip((long) pageSize * page)
+                .limit(pageSize)
+                .collect(Collectors.toList());
     }
 }

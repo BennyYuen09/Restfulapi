@@ -1,9 +1,6 @@
 package com.afs.restfulapi;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,5 +15,16 @@ public class CompanyController {
     @GetMapping("/{id}")
     public Company getCompanyById(@PathVariable("id") Integer id){
         return new CompanyRepository().getCompanyById(id);
+    }
+
+    @GetMapping("/{id}/employees")
+    public List<Employee> getEmployeeListInCompanyById(@PathVariable("id") Integer id){
+        return new CompanyRepository().getCompanyById(id).getEmployeeList();
+    }
+
+    @RequestMapping(params = {"page", "pageSize"}, method = RequestMethod.GET)
+    public List<Company> getCompanyListByPage(@RequestParam(value = "page") int page,
+                                                @RequestParam(value = "pageSize") int pageSize) {
+        return new CompanyRepository().getCompanyByPage(page, pageSize);
     }
 }
