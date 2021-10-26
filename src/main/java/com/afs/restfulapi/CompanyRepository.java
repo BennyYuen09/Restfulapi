@@ -53,4 +53,9 @@ public class CompanyRepository {
         companyEmployee.updateData(company);
         return companyEmployee;
     }
+
+    public boolean deleteEmployeeById(Integer id) {
+        Company company = getCompanyById(id);
+        return this.companyList.remove(company);
+    }
 }

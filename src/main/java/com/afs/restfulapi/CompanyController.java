@@ -1,5 +1,7 @@
 package com.afs.restfulapi;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,4 +40,12 @@ public class CompanyController {
         return new CompanyRepository().updateCompany(id, company);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCompanyById(@PathVariable("id") Integer id){
+        boolean isRemoved = new CompanyRepository().deleteEmployeeById(id);
+        if (isRemoved){
+            return new ResponseEntity<>("Delete Company ID: " + id, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
