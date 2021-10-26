@@ -33,4 +33,15 @@ public class CompanyRepository {
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
+
+    public Company addCompany(Company company) {
+        Integer newID = companyList
+                .stream()
+                .mapToInt(Company::getId)
+                .max()
+                .orElse(0) + 1;
+        company.setId(newID);
+        companyList.add(company);
+        return company;
+    }
 }

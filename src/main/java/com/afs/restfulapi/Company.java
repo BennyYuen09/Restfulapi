@@ -3,7 +3,7 @@ package com.afs.restfulapi;
 import java.util.List;
 
 public class Company {
-    private final Integer id;
+    private Integer id;
     private final String name;
     private final List<Employee> employeeList;
 
@@ -23,5 +23,9 @@ public class Company {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

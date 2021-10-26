@@ -27,4 +27,9 @@ public class CompanyController {
                                                 @RequestParam(value = "pageSize") int pageSize) {
         return new CompanyRepository().getCompanyByPage(page, pageSize);
     }
+
+    @PostMapping
+    public Company addCompany(@RequestBody Company company){
+        return new CompanyRepository().addCompany(company);
+    }
 }
