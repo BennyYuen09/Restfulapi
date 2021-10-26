@@ -39,7 +39,7 @@ public class Employee {
         this.id = id;
     }
 
-    public void updateData(Employee employee){
+    public void updateData(Employee employee) {
         this.id = employee.id;
         this.name = employee.name;
         this.age = employee.age;

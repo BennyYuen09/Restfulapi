@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class CompanyRepository {
     private final List<Company> companyList;
 
-    public CompanyRepository(){
+    public CompanyRepository() {
         this.companyList = new ArrayList<>();
         companyList.add(new Company(1, "APP", new EmployeeRepository().getEmployeeList()));
         companyList.add(new Company(2, "UB_Soft", new ArrayList<>()));
@@ -18,7 +18,7 @@ public class CompanyRepository {
         return companyList;
     }
 
-    public Company getCompanyById(Integer id){
+    public Company getCompanyById(Integer id) {
         return companyList
                 .stream()
                 .filter(company -> company.getId().equals(id))

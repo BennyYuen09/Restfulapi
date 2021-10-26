@@ -62,7 +62,7 @@ public class EmployeeRepository {
         return originEmployee;
     }
 
-    public boolean deleteEmployeeById(Integer id){
+    public boolean deleteEmployeeById(Integer id) {
         Employee employee = getEmployeeById(id);
         return this.employeeList.remove(employee);
     }

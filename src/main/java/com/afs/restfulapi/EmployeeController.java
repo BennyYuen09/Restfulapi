@@ -26,24 +26,24 @@ public class EmployeeController {
     }
 
     @RequestMapping(params = {"gender"}, method = RequestMethod.GET)
-    public List<Employee> getEmployeeListByGender(@RequestParam(value = "gender") String gender){
+    public List<Employee> getEmployeeListByGender(@RequestParam(value = "gender") String gender) {
         return new EmployeeRepository().getEmployeeListByGender(gender);
     }
 
     @PostMapping
-    public Employee addEmployee(@RequestBody Employee employee){
+    public Employee addEmployee(@RequestBody Employee employee) {
         return new EmployeeRepository().addEmployee(employee);
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployeeById(@PathVariable("id") Integer id, @RequestBody Employee employee){
+    public Employee updateEmployeeById(@PathVariable("id") Integer id, @RequestBody Employee employee) {
         return new EmployeeRepository().updateEmployee(id, employee);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Integer id){
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Integer id) {
         boolean isRemoved = new EmployeeRepository().deleteEmployeeById(id);
-        if (isRemoved){
+        if (isRemoved) {
             return new ResponseEntity<>("Delete Employee ID: " + id, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
