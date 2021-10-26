@@ -49,6 +49,7 @@ public class EmployeeRepository {
                 .max()
                 .orElse(0) + 1;
         employee.setId(newID);
+        employeeList.add(employee);
         return employee;
     }
 
