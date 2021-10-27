@@ -30,7 +30,7 @@ public class EmployeeController {
     @RequestMapping(params = {"page", "pageSize"}, method = RequestMethod.GET)
     public List<Employee> getEmployeeListByPage(@RequestParam(value = "page", defaultValue = "0") int page,
                                                 @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
-        return this.employeeRepository.getEmployeeListByPage(page, pageSize);
+        return this.employeeService.getEmployeeListByPage(page, pageSize);
     }
 
     @RequestMapping(params = {"gender"}, method = RequestMethod.GET)

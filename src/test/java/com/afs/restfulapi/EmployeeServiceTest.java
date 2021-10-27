@@ -48,7 +48,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_correct_employees_apge_when_get_page_given_page_and_page_size(){
+    void should_return_correct_employees_page_when_get_page_given_page_and_page_size(){
         EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         List<Employee> employeeList = Arrays.asList(
@@ -62,6 +62,29 @@ public class EmployeeServiceTest {
 
         //when
         List<Employee> actual = employeeService.getEmployeeListByPage(1, 1);
+
+        //then
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void should_return_employees_list_when_get_by_gender_given_gender(){
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        List<Employee> employeeList = Arrays.asList(
+                new Employee("Benny", 19, "male", 20000),
+                new Employee("Tommy", 22, "male", 20000),
+                new Employee("Mary", 22, "female", 100000)
+        );
+        List<Employee> expected = employeeList
+                                .stream()
+                                .filter(employee -> employee.getGender().equals("male"))
+                                .collect(Collectors.toList());
+        when(employeeRepository.getEmployeeListByGender("male"))
+                .thenReturn(expected);
+
+        //when
+        List<Employee> actual = employeeService.getEmployeeListByGender("male");
 
         //then
         assertEquals(expected, actual);
