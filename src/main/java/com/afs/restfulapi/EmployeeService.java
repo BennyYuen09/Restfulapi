@@ -17,6 +17,6 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeById(int id) {
-        return null;
+        return this.employeeRepository.getEmployeeById(id);
     }
 }

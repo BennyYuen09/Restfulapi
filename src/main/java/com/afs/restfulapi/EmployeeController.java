@@ -24,7 +24,7 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public Employee getEmployeeById(@PathVariable("id") Integer id) {
-        return this.employeeRepository.getEmployeeById(id);
+        return this.employeeService.getEmployeeById(id);
     }
 
     @RequestMapping(params = {"page", "pageSize"}, method = RequestMethod.GET)
