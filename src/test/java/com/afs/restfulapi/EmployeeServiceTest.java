@@ -5,6 +5,7 @@ import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -44,5 +45,25 @@ public class EmployeeServiceTest {
 
         //then
         assertEquals(employeeList.get(0), actual);
+    }
+
+    @Test
+    void should_return_correct_employees_apge_when_get_page_given_page_and_page_size(){
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        List<Employee> employeeList = Arrays.asList(
+                new Employee("Benny", 19, "male", 20000),
+                new Employee("Tommy", 22, "male", 20000),
+                new Employee("Mary", 22, "female", 100000)
+        );
+        List<Employee> expected = employeeList.stream().skip(1).limit(1).collect(Collectors.toList());
+        when(employeeRepository.getEmployeeListByPage(1, 1))
+                .thenReturn(expected);
+
+        //when
+        List<Employee> actual = employeeService.getEmployeeListByPage(1, 1);
+
+        //then
+        assertEquals(expected, actual);
     }
 }
