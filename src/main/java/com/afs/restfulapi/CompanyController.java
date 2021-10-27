@@ -48,10 +48,17 @@ public class CompanyController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCompanyById(@PathVariable("id") Integer id) {
-        boolean isRemoved = this.companyRepository.deleteEmployeeById(id);
+        boolean isRemoved;
+
+        try {
+            isRemoved = this.companyRepository.deleteEmployeeById(id);
+        } catch (CompanyNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
         if (isRemoved) {
             return new ResponseEntity<>("Delete Company ID: " + id, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 }

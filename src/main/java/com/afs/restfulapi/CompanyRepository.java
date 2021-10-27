@@ -18,7 +18,7 @@ public class CompanyRepository {
         return companyList;
     }
 
-    public Company getCompanyById(Integer id) {
+    public Company getCompanyById(Integer id) throws CompanyNotFoundException{
         return companyList
                 .stream()
                 .filter(company -> company.getId().equals(id))
@@ -54,8 +54,8 @@ public class CompanyRepository {
         return companyEmployee;
     }
 
-    public boolean deleteEmployeeById(Integer id) {
-        Company company = getCompanyById(id);
+    public boolean deleteEmployeeById(Integer id) throws CompanyNotFoundException{
+        Company company = this.getCompanyById(id);
         return this.companyList.remove(company);
     }
 }

@@ -48,7 +48,14 @@ public class EmployeeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Integer id) {
-        boolean isRemoved = this.employeeRepository.deleteEmployeeById(id);
+        boolean isRemoved;
+
+        try {
+            isRemoved = this.employeeRepository.deleteEmployeeById(id);
+        } catch (EmployeeNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage() + id, HttpStatus.OK);
+        }
+
         if (isRemoved) {
             return new ResponseEntity<>("Delete Employee ID: " + id, HttpStatus.OK);
         }

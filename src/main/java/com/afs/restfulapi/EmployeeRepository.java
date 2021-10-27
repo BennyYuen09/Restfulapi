@@ -19,7 +19,7 @@ public class EmployeeRepository {
         return employeeList;
     }
 
-    public Employee getEmployeeById(Integer id) {
+    public Employee getEmployeeById(Integer id) throws EmployeeNotFoundException{
         return employeeList
                 .stream()
                 .filter(employee -> employee.getId().equals(id))
@@ -62,7 +62,7 @@ public class EmployeeRepository {
         return originEmployee;
     }
 
-    public boolean deleteEmployeeById(Integer id) {
+    public boolean deleteEmployeeById(Integer id) throws EmployeeNotFoundException{
         Employee employee = getEmployeeById(id);
         return this.employeeList.remove(employee);
     }
