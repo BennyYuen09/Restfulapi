@@ -13,9 +13,9 @@ public class EmployeeRepository {
     public EmployeeRepository() {
         this.employeeList = new ArrayList<>();
 
-        employeeList.add(new Employee("Benny", 22, "male", 18000));
-        employeeList.add(new Employee("Peter", 22, "male", 18000));
-        employeeList.add(new Employee("Mary", 18, "female", 20000));
+//        employeeList.add(new Employee("Benny", 22, "male", 18000));
+//        employeeList.add(new Employee("Peter", 22, "male", 18000));
+//        employeeList.add(new Employee("Mary", 18, "female", 20000));
     }
 
     public List<Employee> getEmployeeList() {
