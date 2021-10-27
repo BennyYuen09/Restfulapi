@@ -6,6 +6,11 @@ public class Employee {
     private Integer age;
     private String gender;
     private Integer salary;
+    private Integer companyId;
+
+    public Employee(){
+        this(null, null, null, null);
+    }
 
     public Employee(String name, Integer age, String gender, Integer salary) {
         this.id = null;
@@ -13,6 +18,15 @@ public class Employee {
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+    }
+
+    public Employee(String name, Integer age, String gender, Integer salary, Integer companyId) {
+        this.id = null;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.salary = salary;
+        this.companyId = companyId;
     }
 
     public Integer getId() {
@@ -44,6 +58,7 @@ public class Employee {
         this.age = (employee.age != null)? employee.age : this.age;
         this.gender = (employee.gender != null)? employee.gender : this.gender;
         this.salary = (employee.salary != null)? employee.salary : this.salary;
+        this.companyId = (employee.companyId != null)? employee.companyId : this.companyId;
     }
 
     @Override

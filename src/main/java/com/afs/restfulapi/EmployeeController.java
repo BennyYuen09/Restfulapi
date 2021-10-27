@@ -9,11 +9,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-    private final EmployeeRepository employeeRepository;
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository, EmployeeService employeeService) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
@@ -51,17 +49,7 @@ public class EmployeeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Integer id) {
-        boolean isRemoved;
-
-        try {
-            isRemoved = this.employeeService.deleteEmployeeById(id);
-        } catch (EmployeeNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage() + " ID:  " + id, HttpStatus.NOT_FOUND);
-        }
-
-        if (isRemoved) {
-            return new ResponseEntity<>("Deleted Employee ID: " + id, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        employeeService.deleteEmployeeById(id);
+        return new ResponseEntity<>("Deleted Employee ID: " + id, HttpStatus.OK);
     }
 }
