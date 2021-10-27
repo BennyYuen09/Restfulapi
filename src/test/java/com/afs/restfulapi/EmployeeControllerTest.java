@@ -9,8 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,7 +24,7 @@ public class EmployeeControllerTest {
 
     @BeforeEach
     void Init(){
-
+        employeeRepository.reset();
     }
 
     @Test
@@ -170,5 +169,51 @@ public class EmployeeControllerTest {
 
         //then
         resultActions.andExpect(status().isCreated()).andExpect(content().json(expected));
+    }
+
+    @Test
+    void should_get_employee_when_update_employee_given_employee_info() throws Exception{
+        //given
+        Employee employee = new Employee("Benny", 25, "male", 10000);
+        employeeRepository.addEmployee(employee);
+
+        String updateInfo =
+                "    {\n" +
+                        "        \"name\": \"Benny\",\n" +
+                        "        \"age\": 19,\n" +
+                        "        \"gender\": \"male\",\n" +
+                        "        \"salary\": 20000\n" +
+                        "    }\n";
+
+        String expected =
+                "    {\n" +
+                        "        \"id\": 1,\n" +
+                        "        \"name\": \"Benny\",\n" +
+                        "        \"age\": 19,\n" +
+                        "        \"gender\": \"male\",\n" +
+                        "        \"salary\": 20000\n" +
+                        "    }\n";
+
+        //when
+        ResultActions resultActions = mockMvc.perform(put("/employees/1")
+                .contentType(MediaType.APPLICATION_JSON).content(updateInfo));
+
+        //then
+        resultActions.andExpect(status().isOk()).andExpect(content().json(expected));
+    }
+
+    @Test
+    void should_get_deleted_success_message_when_delete_employee_given_employee_id() throws Exception{
+        //given
+        Employee employee = new Employee("Benny", 25, "male", 10000);
+        employeeRepository.addEmployee(employee);
+
+        String expected = "Deleted Employee ID: 1";
+
+        //when
+        ResultActions resultActions = mockMvc.perform(delete("/employees/1"));
+
+        //then
+        resultActions.andExpect(status().isOk()).andExpect(content().string(expected));
     }
 }

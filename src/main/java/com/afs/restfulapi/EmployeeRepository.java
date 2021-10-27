@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 
 @Repository
 public class EmployeeRepository {
-    private final List<Employee> employeeList;
+    private int newId = 1;
+
+    private List<Employee> employeeList;
 
     public EmployeeRepository() {
         this.employeeList = new ArrayList<>();
@@ -46,6 +48,8 @@ public class EmployeeRepository {
     }
 
     public Employee addEmployee(Employee employee) {
+        employee.setId(newId);
+        newId++;
         employeeList.add(employee);
         return employee;
     }
@@ -60,5 +64,10 @@ public class EmployeeRepository {
     public boolean deleteEmployeeById(Integer id) throws EmployeeNotFoundException{
         Employee employee = getEmployeeById(id);
         return this.employeeList.remove(employee);
+    }
+
+    public void reset(){
+        this.employeeList = new ArrayList<>();
+        newId = 1;
     }
 }
