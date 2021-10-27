@@ -10,9 +10,9 @@ public class EmployeeRepository {
     public EmployeeRepository() {
         this.employeeList = new ArrayList<>();
 
-        employeeList.add(new Employee(1, "Benny", 22, "male", 18000));
-        employeeList.add(new Employee(2, "Peter", 22, "male", 18000));
-        employeeList.add(new Employee(3, "Mary", 18, "female", 20000));
+        employeeList.add(new Employee("Benny", 22, "male", 18000));
+        employeeList.add(new Employee("Peter", 22, "male", 18000));
+        employeeList.add(new Employee("Mary", 18, "female", 20000));
     }
 
     public List<Employee> getEmployeeList() {
@@ -43,12 +43,6 @@ public class EmployeeRepository {
     }
 
     public Employee addEmployee(Employee employee) {
-        Integer newID = employeeList
-                .stream()
-                .mapToInt(Employee::getId)
-                .max()
-                .orElse(0) + 1;
-        employee.setId(newID);
         employeeList.add(employee);
         return employee;
     }

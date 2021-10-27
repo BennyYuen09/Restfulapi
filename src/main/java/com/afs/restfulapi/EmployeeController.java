@@ -26,16 +26,17 @@ public class EmployeeController {
     }
 
     @RequestMapping(params = {"page", "pageSize"}, method = RequestMethod.GET)
-    public List<Employee> getEmployeeListByPage(@RequestParam(value = "page") int page,
-                                                @RequestParam(value = "pageSize") int pageSize) {
+    public List<Employee> getEmployeeListByPage(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         return this.employeeRepository.getEmployeeListByPage(page, pageSize);
     }
 
     @RequestMapping(params = {"gender"}, method = RequestMethod.GET)
-    public List<Employee> getEmployeeListByGender(@RequestParam(value = "gender") String gender) {
+    public List<Employee> getEmployeeListByGender(@RequestParam(value = "gender", defaultValue = "male") String gender) {
         return this.employeeRepository.getEmployeeListByGender(gender);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Employee addEmployee(@RequestBody Employee employee) {
         return this.employeeRepository.addEmployee(employee);
@@ -53,12 +54,12 @@ public class EmployeeController {
         try {
             isRemoved = this.employeeRepository.deleteEmployeeById(id);
         } catch (EmployeeNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage() + id, HttpStatus.OK);
+            return new ResponseEntity<>(e.getMessage() + id, HttpStatus.NOT_FOUND);
         }
 
         if (isRemoved) {
-            return new ResponseEntity<>("Delete Employee ID: " + id, HttpStatus.OK);
+            return new ResponseEntity<>("Delete Employee ID: " + id, HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
 }

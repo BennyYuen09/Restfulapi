@@ -31,11 +31,12 @@ public class CompanyController {
     }
 
     @RequestMapping(params = {"page", "pageSize"}, method = RequestMethod.GET)
-    public List<Company> getCompanyListByPage(@RequestParam(value = "page") int page,
-                                              @RequestParam(value = "pageSize") int pageSize) {
+    public List<Company> getCompanyListByPage(@RequestParam(value = "page", defaultValue = "0") int page,
+                                              @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
         return this.companyRepository.getCompanyByPage(page, pageSize);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Company addCompany(@RequestBody Company company) {
         return this.companyRepository.addCompany(company);
@@ -57,7 +58,7 @@ public class CompanyController {
         }
 
         if (isRemoved) {
-            return new ResponseEntity<>("Delete Company ID: " + id, HttpStatus.OK);
+            return new ResponseEntity<>("Delete Company ID: " + id, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }

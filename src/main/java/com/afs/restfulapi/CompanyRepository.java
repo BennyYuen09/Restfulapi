@@ -9,9 +9,9 @@ public class CompanyRepository {
 
     public CompanyRepository() {
         this.companyList = new ArrayList<>();
-        companyList.add(new Company(1, "APP", new EmployeeRepository().getEmployeeList()));
-        companyList.add(new Company(2, "UB_Soft", new ArrayList<>()));
-        companyList.add(new Company(3, "EA_Trash", new EmployeeRepository().getEmployeeList()));
+        companyList.add(new Company("APP", new EmployeeRepository().getEmployeeList()));
+        companyList.add(new Company("UB_Soft", new ArrayList<>()));
+        companyList.add(new Company("EA_Trash", new EmployeeRepository().getEmployeeList()));
     }
 
     public List<Company> getCompanyList() {
@@ -35,12 +35,6 @@ public class CompanyRepository {
     }
 
     public Company addCompany(Company company) {
-        Integer newID = companyList
-                .stream()
-                .mapToInt(Company::getId)
-                .max()
-                .orElse(0) + 1;
-        company.setId(newID);
         companyList.add(company);
         return company;
     }

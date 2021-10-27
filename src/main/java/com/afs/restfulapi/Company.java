@@ -3,14 +3,18 @@ package com.afs.restfulapi;
 import java.util.List;
 
 public class Company {
+    private static int newID = 1;
+
     private Integer id;
     private String name;
     private List<Employee> employeeList;
 
-    public Company(Integer id, String name, List<Employee> employeeList) {
-        this.id = id;
+    public Company(String name, List<Employee> employeeList) {
+        this.id = newID;
         this.name = name;
         this.employeeList = employeeList;
+
+        newID++;
     }
 
     public List<Employee> getEmployeeList() {
@@ -30,7 +34,6 @@ public class Company {
     }
 
     public void updateData(Company company) {
-        this.id = company.id;
         this.name = company.name;
         this.employeeList = company.employeeList;
     }

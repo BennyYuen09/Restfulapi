@@ -1,18 +1,22 @@
 package com.afs.restfulapi;
 
 public class Employee {
+    private static int newID = 1;
+
     private Integer id;
     private String name;
     private Integer age;
     private String gender;
     private Integer salary;
 
-    public Employee(Integer id, String name, Integer age, String gender, Integer salary) {
-        this.id = id;
+    public Employee(String name, Integer age, String gender, Integer salary) {
+        this.id = newID;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+
+        newID++;
     }
 
     public Integer getId() {
@@ -40,7 +44,6 @@ public class Employee {
     }
 
     public void updateData(Employee employee) {
-        this.id = employee.id;
         this.name = employee.name;
         this.age = employee.age;
         this.gender = employee.gender;
