@@ -89,4 +89,36 @@ public class EmployeeServiceTest {
         //then
         assertEquals(expected, actual);
     }
+
+
+    @Test
+    void should_return_employee_when_add_employee_given_employee(){
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        List<Employee> employeeList = Arrays.asList(
+                new Employee("Benny", 19, "male", 20000),
+                new Employee("Tommy", 22, "male", 20000),
+                new Employee("Mary", 22, "female", 100000)
+        );
+
+        Employee add = new Employee("Manny", 22, "male", 50000);
+        Employee expected = new Employee(4, "Manny", 22, "male", 50000);
+        when(employeeRepository.addEmployee(add)).thenReturn(expected);
+
+        //when
+        Employee actual = employeeService.addEmployee(add);
+
+        //then
+        assertEquals(add, actual);
+    }
+
+    @Test
+    void temp(){
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        Employee employee = new Employee("Benny", 19, "male", 20000);
+
+        when(employeeRepository.getEmployeeById(1)).thenReturn(employee);
+
+    }
 }

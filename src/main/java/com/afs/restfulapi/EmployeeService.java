@@ -25,6 +25,10 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeeListByGender(String gender) {
+        return this.employeeRepository.getEmployeeListByGender(gender);
+    }
+
+    public Employee addEmployee(Employee employee) {
         return null;
     }
 }

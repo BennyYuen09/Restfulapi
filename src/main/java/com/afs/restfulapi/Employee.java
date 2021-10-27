@@ -15,6 +15,14 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Employee(Integer id, String name, Integer age, String gender, Integer salary) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.salary = salary;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -40,10 +48,10 @@ public class Employee {
     }
 
     public void updateData(Employee employee) {
-        this.name = employee.name;
-        this.age = employee.age;
-        this.gender = employee.gender;
-        this.salary = employee.salary;
+        this.name = (employee.name != null)? employee.name : this.name;
+        this.age = (employee.age != null)? employee.age : this.age;
+        this.gender = (employee.gender != null)? employee.gender : this.gender;
+        this.salary = (employee.salary != null)? employee.salary : this.salary;
     }
 
     @Override

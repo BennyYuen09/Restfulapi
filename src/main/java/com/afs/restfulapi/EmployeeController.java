@@ -35,7 +35,7 @@ public class EmployeeController {
 
     @RequestMapping(params = {"gender"}, method = RequestMethod.GET)
     public List<Employee> getEmployeeListByGender(@RequestParam(value = "gender", defaultValue = "male") String gender) {
-        return this.employeeRepository.getEmployeeListByGender(gender);
+        return this.employeeService.getEmployeeListByGender(gender);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
