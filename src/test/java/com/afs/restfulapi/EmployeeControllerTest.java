@@ -112,4 +112,33 @@ public class EmployeeControllerTest {
         //then
         resultActions.andExpect(status().isOk()).andExpect(content().json(expected));
     }
+
+    @Test
+    void should_return_employee_list_when_get_page_by_gender_given_gender() throws Exception{
+        //given
+        Employee employee1 = new Employee("Benny", 19, "male", 20000);
+        Employee employee2 = new Employee("Tommy", 22, "male", 20000);
+        Employee employee3 = new Employee("Mary", 22, "female", 100000);
+
+
+        employeeRepository.addEmployee(employee1);
+        employeeRepository.addEmployee(employee2);
+        employeeRepository.addEmployee(employee3);
+
+        String expected = "[\n" +
+                "    {\n" +
+                "        \"id\": 3,\n" +
+                "        \"name\": \"Mary\",\n" +
+                "        \"age\": 22,\n" +
+                "        \"gender\": \"female\",\n" +
+                "        \"salary\": 100000\n" +
+                "    }\n" +
+                "]";
+
+        //when
+        ResultActions resultActions = mockMvc.perform(get("/employees?gender=female"));
+
+        //then
+        resultActions.andExpect(status().isOk()).andExpect(content().json(expected));
+    }
 }
