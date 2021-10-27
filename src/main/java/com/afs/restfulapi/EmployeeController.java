@@ -11,7 +11,7 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeController(){
+    public EmployeeController() {
         employeeRepository = new EmployeeRepository();
     }
 

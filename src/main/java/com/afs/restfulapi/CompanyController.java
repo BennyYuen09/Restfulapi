@@ -11,7 +11,7 @@ import java.util.List;
 public class CompanyController {
     private final CompanyRepository companyRepository;
 
-    public CompanyController(){
+    public CompanyController() {
         companyRepository = new CompanyRepository();
     }
 
