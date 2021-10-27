@@ -11,8 +11,8 @@ import java.util.List;
 public class CompanyController {
     private final CompanyRepository companyRepository;
 
-    public CompanyController() {
-        companyRepository = new CompanyRepository();
+    public CompanyController(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
     }
 
     @GetMapping
@@ -58,7 +58,7 @@ public class CompanyController {
         }
 
         if (isRemoved) {
-            return new ResponseEntity<>("Delete Company ID: " + id, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("Deleted Company ID: " + " ID:  " + id, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }

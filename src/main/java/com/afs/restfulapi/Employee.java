@@ -9,6 +9,8 @@ public class Employee {
     private String gender;
     private Integer salary;
 
+    private Integer companyId;
+
     public Employee(String name, Integer age, String gender, Integer salary) {
         this.id = newID;
         this.name = name;

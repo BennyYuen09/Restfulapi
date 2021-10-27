@@ -11,8 +11,8 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeController() {
-        employeeRepository = new EmployeeRepository();
+    public EmployeeController(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
     @GetMapping
@@ -54,11 +54,11 @@ public class EmployeeController {
         try {
             isRemoved = this.employeeRepository.deleteEmployeeById(id);
         } catch (EmployeeNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage() + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage() + " ID:  " + id, HttpStatus.NOT_FOUND);
         }
 
         if (isRemoved) {
-            return new ResponseEntity<>("Delete Employee ID: " + id, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("Deleted Employee ID: " + id, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }

@@ -1,9 +1,12 @@
 package com.afs.restfulapi;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class EmployeeRepository {
     private final List<Employee> employeeList;
 
@@ -49,9 +52,7 @@ public class EmployeeRepository {
 
     public Employee updateEmployee(Integer id, Employee employee) {
         Employee originEmployee = getEmployeeById(id);
-        if (!originEmployee.getId().equals(employee.getId())) {
-            throw new EmployeeNotFoundException();
-        }
+
         originEmployee.updateData(employee);
         return originEmployee;
     }
