@@ -54,7 +54,7 @@ public class EmployeeController {
         boolean isRemoved;
 
         try {
-            isRemoved = this.employeeRepository.deleteEmployeeById(id);
+            isRemoved = this.employeeService.deleteEmployeeById(id);
         } catch (EmployeeNotFoundException e) {
             return new ResponseEntity<>(e.getMessage() + " ID:  " + id, HttpStatus.NOT_FOUND);
         }

@@ -37,6 +37,6 @@ public class EmployeeService {
     }
 
     public boolean deleteEmployeeById(Integer id) {
-        return false;
+        return this.employeeRepository.deleteEmployeeById(id);
     }
 }
