@@ -29,6 +29,10 @@ public class EmployeeService {
     }
 
     public Employee addEmployee(Employee employee) {
+        return this.employeeRepository.addEmployee(employee);
+    }
+
+    public Employee updateEmployee(Integer id, Employee update) {
         return null;
     }
 }

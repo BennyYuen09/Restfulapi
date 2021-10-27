@@ -2,12 +2,14 @@ package com.afs.restfulapi;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class EmployeeServiceTest {
@@ -102,23 +104,39 @@ public class EmployeeServiceTest {
         );
 
         Employee add = new Employee("Manny", 22, "male", 50000);
-        Employee expected = new Employee(4, "Manny", 22, "male", 50000);
+        Employee expected = new Employee("Manny", 22, "male", 50000);
+        expected.setId(4);
         when(employeeRepository.addEmployee(add)).thenReturn(expected);
 
         //when
         Employee actual = employeeService.addEmployee(add);
 
         //then
-        assertEquals(add, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void temp(){
+    void should_return_updated_employee_when_update_employee_by_id_given_id_and_employee_info(){
         EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         Employee employee = new Employee("Benny", 19, "male", 20000);
 
         when(employeeRepository.getEmployeeById(1)).thenReturn(employee);
+        Employee update = new Employee(null, null, null , 123);
+        Employee updated = new Employee("Benny", 19, "male", 123);
+        updated.setId(1);
+        when(employeeRepository.updateEmployee(1, update))
+                .thenReturn(updated);
 
+
+        //when
+        Employee actual = employeeService.updateEmployee(1, update);
+
+        //then
+        assertEquals(1, actual.getId());
+        assertEquals("Benny", actual.getName());
+        assertEquals("male", actual.getGender());
+        assertEquals(19, actual.getAge());
+        assertEquals(123, actual.getSalary());
     }
 }
