@@ -8,7 +8,7 @@ public class Employee {
     private Integer salary;
 
     public Employee(String name, Integer age, String gender, Integer salary) {
-        this.id = 0;
+        this.id = null;
         this.name = name;
         this.age = age;
         this.gender = gender;

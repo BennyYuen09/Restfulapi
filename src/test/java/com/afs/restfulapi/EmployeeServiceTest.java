@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 
 public class EmployeeServiceTest {
     @Test
-    void should_return_all_employee_when_get_employee_list_given_3_employee(){
+    void should_return_all_employee_when_get_employee_list_given_3_employee() {
         EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         List<Employee> employeeList = Arrays.asList(
@@ -26,5 +26,23 @@ public class EmployeeServiceTest {
 
         //then
         assertEquals(employeeList, actual);
+    }
+
+    @Test
+    void should_return_correct_employee_when_get_by_id_given_id(){
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        List<Employee> employeeList = Arrays.asList(
+                new Employee("Benny", 19, "male", 20000),
+                new Employee("Tommy", 22, "male", 20000),
+                new Employee("Mary", 22, "female", 100000)
+        );
+        when(employeeRepository.getEmployeeById(1)).thenReturn(employeeList.get(0));
+
+        //when
+        Employee actual = employeeService.getEmployeeById(1);
+
+        //then
+        assertEquals(employeeList.get(0), actual);
     }
 }

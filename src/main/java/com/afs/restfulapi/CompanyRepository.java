@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 
 @Repository
 public class CompanyRepository {
-    private final List<Company> companyList;
+    private int newId = 1;
+
+    private List<Company> companyList;
 
     public CompanyRepository() {
         this.companyList = new ArrayList<>();
@@ -38,6 +40,8 @@ public class CompanyRepository {
     }
 
     public Company addCompany(Company company) {
+        company.setId(newId);
+        newId++;
         companyList.add(company);
         return company;
     }
@@ -54,5 +58,10 @@ public class CompanyRepository {
     public boolean deleteEmployeeById(Integer id) throws CompanyNotFoundException{
         Company company = this.getCompanyById(id);
         return this.companyList.remove(company);
+    }
+
+    public void reset(){
+        this.companyList = new ArrayList<>();
+        newId = 1;
     }
 }
