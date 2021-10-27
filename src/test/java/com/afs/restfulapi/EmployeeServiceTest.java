@@ -3,12 +3,15 @@ package com.afs.restfulapi;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -92,7 +95,6 @@ public class EmployeeServiceTest {
         assertEquals(expected, actual);
     }
 
-
     @Test
     void should_return_employee_when_add_employee_given_employee(){
         EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
@@ -138,5 +140,22 @@ public class EmployeeServiceTest {
         assertEquals("male", actual.getGender());
         assertEquals(19, actual.getAge());
         assertEquals(123, actual.getSalary());
+    }
+
+    @Test
+    void should_return_delete_message_when_delete_employee_given_id(){
+        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        Employee employee = new Employee("Benny", 19, "male", 20000);
+        employeeRepository.addEmployee(employee);
+
+        when(employeeRepository.deleteEmployeeById(1)).thenReturn(true);
+
+
+        //when
+        boolean actual = employeeService.deleteEmployeeById(1);
+
+        //then
+        assertTrue(actual);
     }
 }

@@ -35,4 +35,8 @@ public class EmployeeService {
     public Employee updateEmployee(Integer id, Employee update) {
         return this.employeeRepository.updateEmployee(id, update);
     }
+
+    public boolean deleteEmployeeById(Integer id) {
+        return false;
+    }
 }
