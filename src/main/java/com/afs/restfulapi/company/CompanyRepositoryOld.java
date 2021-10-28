@@ -1,5 +1,7 @@
-package com.afs.restfulapi;
+package com.afs.restfulapi.company;
 
+import com.afs.restfulapi.exception.CompanyNotFoundException;
+import com.afs.restfulapi.exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -7,23 +9,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class CompanyRepository {
+public class CompanyRepositoryOld {
     private int newId = 1;
 
     private List<Company> companyList;
 
-    public CompanyRepository() {
+    public CompanyRepositoryOld() {
         this.companyList = new ArrayList<>();
-        companyList.add(new Company("APP", new EmployeeRepository().getEmployeeList()));
-        companyList.add(new Company("UB_Soft", new ArrayList<>()));
-        companyList.add(new Company("EA_Trash", new EmployeeRepository().getEmployeeList()));
     }
 
     public List<Company> getCompanyList() {
         return companyList;
     }
 
-    public Company getCompanyById(Integer id) throws CompanyNotFoundException{
+    public Company getCompanyById(Integer id) throws CompanyNotFoundException {
         return companyList
                 .stream()
                 .filter(company -> company.getId().equals(id))

@@ -1,5 +1,7 @@
-package com.afs.restfulapi;
+package com.afs.restfulapi.company;
 
+import com.afs.restfulapi.exception.CompanyNotFoundException;
+import com.afs.restfulapi.employee.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,42 +11,42 @@ import java.util.List;
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
-    private final CompanyRepository companyRepository;
+    private final CompanyService companyService;
 
-    public CompanyController(CompanyRepository companyRepository) {
-        this.companyRepository = companyRepository;
+    public CompanyController(CompanyService companyService) {
+        this.companyService = companyService;
     }
 
     @GetMapping
     public List<Company> getCompanyList() {
-        return this.companyRepository.getCompanyList();
+        return this.companyService.findAll();
     }
 
     @GetMapping("/{id}")
     public Company getCompanyById(@PathVariable("id") Integer id) {
-        return this.companyRepository.getCompanyById(id);
+        return this.companyService.findById(id);
     }
 
     @GetMapping("/{id}/employees")
     public List<Employee> getEmployeeListInCompanyById(@PathVariable("id") Integer id) {
-        return new CompanyRepository().getCompanyById(id).getEmployeeList();
+        return this.companyService.getEmployeeListInCompanyById(id);
     }
 
     @RequestMapping(params = {"page", "pageSize"}, method = RequestMethod.GET)
     public List<Company> getCompanyListByPage(@RequestParam(value = "page", defaultValue = "0") int page,
                                               @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
-        return this.companyRepository.getCompanyByPage(page, pageSize);
+        return this.companyService.getCompanyListByPage(page, pageSize).toList();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Company addCompany(@RequestBody Company company) {
-        return this.companyRepository.addCompany(company);
+        return this.companyService.addCompany(company);
     }
 
     @PutMapping("/{id}")
     public Company updateCompanyById(@PathVariable("id") Integer id, @RequestBody Company company) {
-        return this.companyRepository.updateCompany(id, company);
+        return this.companyService.updateCompanyById(id, company);
     }
 
     @DeleteMapping("/{id}")
@@ -52,7 +54,7 @@ public class CompanyController {
         boolean isRemoved;
 
         try {
-            isRemoved = this.companyRepository.deleteEmployeeById(id);
+            isRemoved = this.companyService.deleteCompanyById(id);
         } catch (CompanyNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

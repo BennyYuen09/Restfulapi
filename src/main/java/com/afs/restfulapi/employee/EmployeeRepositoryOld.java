@@ -1,5 +1,6 @@
-package com.afs.restfulapi;
+package com.afs.restfulapi.employee;
 
+import com.afs.restfulapi.exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -7,24 +8,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class EmployeeRepository {
+public class EmployeeRepositoryOld {
     private int newId = 1;
 
     private List<Employee> employeeList;
 
-    public EmployeeRepository() {
+    public EmployeeRepositoryOld() {
         this.employeeList = new ArrayList<>();
-
-//        employeeList.add(new Employee("Benny", 22, "male", 18000));
-//        employeeList.add(new Employee("Peter", 22, "male", 18000));
-//        employeeList.add(new Employee("Mary", 18, "female", 20000));
     }
 
     public List<Employee> getEmployeeList() {
         return employeeList;
     }
 
-    public Employee getEmployeeById(Integer id) throws EmployeeNotFoundException{
+    public Employee getEmployeeById(Integer id) throws EmployeeNotFoundException {
         return employeeList
                 .stream()
                 .filter(employee -> employee.getId().equals(id))
@@ -54,8 +51,8 @@ public class EmployeeRepository {
         return employee;
     }
 
-    public Employee updateEmployee(Integer id, Employee employee) {
-        Employee originEmployee = getEmployeeById(id);
+    public Employee updateEmployee(Employee employee) {
+        Employee originEmployee = getEmployeeById(employee.getId());
 
         originEmployee.updateData(employee);
         return originEmployee;

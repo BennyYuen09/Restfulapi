@@ -1,4 +1,4 @@
-package com.afs.restfulapi;
+package com.afs.restfulapi.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

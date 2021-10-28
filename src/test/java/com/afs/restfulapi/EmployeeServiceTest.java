@@ -1,31 +1,40 @@
 package com.afs.restfulapi;
 
+import com.afs.restfulapi.employee.Employee;
+import com.afs.restfulapi.employee.EmployeeService;
+import com.afs.restfulapi.employee.EmployeeRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(SpringExtension.class)
 public class EmployeeServiceTest {
+    @Mock
+    private EmployeeRepository employeeRepository;
+    @InjectMocks
+    private EmployeeService employeeService;
+
     @Test
     void should_return_all_employee_when_get_employee_list_given_3_employee() {
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-        EmployeeService employeeService = new EmployeeService(employeeRepository);
         List<Employee> employeeList = Arrays.asList(
                 new Employee("Benny", 19, "male", 20000),
                 new Employee("Tommy", 22, "male", 20000),
                 new Employee("Mary", 22, "female", 100000)
         );
-        when(employeeRepository.getEmployeeList()).thenReturn(employeeList);
+        when(employeeRepository.findAll()).thenReturn(employeeList);
 
         //when
         List<Employee> actual = employeeService.getEmployeeList();
@@ -35,57 +44,39 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_correct_employee_when_get_by_id_given_id(){
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-        EmployeeService employeeService = new EmployeeService(employeeRepository);
-        List<Employee> employeeList = Arrays.asList(
-                new Employee("Benny", 19, "male", 20000),
-                new Employee("Tommy", 22, "male", 20000),
-                new Employee("Mary", 22, "female", 100000)
-        );
-        when(employeeRepository.getEmployeeById(1)).thenReturn(employeeList.get(0));
+    void should_return_correct_employee_when_get_by_id_given_id() {
+        Employee employee = new Employee(1,"Benny", 19, "male", 20000, null);
+        when(employeeRepository.findById(1)).thenReturn(Optional.of(employee));
 
         //when
         Employee actual = employeeService.getEmployeeById(1);
 
         //then
-        assertEquals(employeeList.get(0), actual);
+        assertEquals(employee, actual);
     }
 
     @Test
-    void should_return_correct_employees_page_when_get_page_given_page_and_page_size(){
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-        EmployeeService employeeService = new EmployeeService(employeeRepository);
-        List<Employee> employeeList = Arrays.asList(
-                new Employee("Benny", 19, "male", 20000),
-                new Employee("Tommy", 22, "male", 20000),
-                new Employee("Mary", 22, "female", 100000)
+    void should_return_correct_employees_page_when_get_page_given_page_and_page_size() {
+        List<Employee> expected = Collections.singletonList(
+                new Employee("Tommy", 22, "male", 20000)
         );
-        List<Employee> expected = employeeList.stream().skip(1).limit(1).collect(Collectors.toList());
-        when(employeeRepository.getEmployeeListByPage(1, 1))
-                .thenReturn(expected);
+
+        when(employeeRepository.findAll(PageRequest.of(1, 1))).thenReturn(new PageImpl<>(expected));
 
         //when
-        List<Employee> actual = employeeService.getEmployeeListByPage(1, 1);
+        List<Employee> actual = employeeService.getEmployeeListByPage(1, 1).toList();
 
         //then
         assertEquals(expected, actual);
     }
 
     @Test
-    void should_return_employees_list_when_get_by_gender_given_gender(){
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-        EmployeeService employeeService = new EmployeeService(employeeRepository);
-        List<Employee> employeeList = Arrays.asList(
+    void should_return_employees_list_when_get_by_gender_given_gender() {
+        List<Employee> expected = Arrays.asList(
                 new Employee("Benny", 19, "male", 20000),
-                new Employee("Tommy", 22, "male", 20000),
-                new Employee("Mary", 22, "female", 100000)
+                new Employee("Tommy", 22, "male", 20000)
         );
-        List<Employee> expected = employeeList
-                                .stream()
-                                .filter(employee -> employee.getGender().equals("male"))
-                                .collect(Collectors.toList());
-        when(employeeRepository.getEmployeeListByGender("male"))
+        when(employeeRepository.findAllByGender("male"))
                 .thenReturn(expected);
 
         //when
@@ -96,19 +87,11 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_employee_when_add_employee_given_employee(){
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-        EmployeeService employeeService = new EmployeeService(employeeRepository);
-        List<Employee> employeeList = Arrays.asList(
-                new Employee("Benny", 19, "male", 20000),
-                new Employee("Tommy", 22, "male", 20000),
-                new Employee("Mary", 22, "female", 100000)
-        );
-
+    void should_return_employee_when_add_employee_given_employee() {
         Employee add = new Employee("Manny", 22, "male", 50000);
         Employee expected = new Employee("Manny", 22, "male", 50000);
-        expected.setId(4);
-        when(employeeRepository.addEmployee(add)).thenReturn(expected);
+        expected.setId(1);
+        when(employeeRepository.save(add)).thenReturn(expected);
 
         //when
         Employee actual = employeeService.addEmployee(add);
@@ -118,23 +101,20 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_updated_employee_when_update_employee_by_id_given_id_and_employee_info(){
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-        EmployeeService employeeService = new EmployeeService(employeeRepository);
-        Employee employee = new Employee("Benny", 19, "male", 20000);
+    void should_return_updated_employee_when_update_employee_by_id_given_id_and_employee_info() {
+        Employee employee = new Employee(1, "Benny", 19, "male", 20000, null);
+        when(employeeRepository.findById(any())).thenReturn(Optional.of(employee));
 
-        when(employeeRepository.getEmployeeById(1)).thenReturn(employee);
-        Employee update = new Employee(null, null, null , 123);
-        Employee updated = new Employee("Benny", 19, "male", 123);
-        updated.setId(1);
-        when(employeeRepository.updateEmployee(1, update))
-                .thenReturn(updated);
+        Employee updateInfo = new Employee(null,null, null, null, 123, null);
+        Employee updated = new Employee(1, "Benny", 19, "male", 123, null);
 
+        when(employeeRepository.save(any(Employee.class))).thenReturn(updated);
 
         //when
-        Employee actual = employeeService.updateEmployee(1, update);
+        Employee actual = employeeService.updateEmployee(1, updateInfo);
 
         //then
+        assertNotNull(actual);
         assertEquals(1, actual.getId());
         assertEquals("Benny", actual.getName());
         assertEquals("male", actual.getGender());
@@ -143,19 +123,16 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_delete_message_when_delete_employee_given_id(){
-        EmployeeRepository employeeRepository = Mockito.mock(EmployeeRepository.class);
-        EmployeeService employeeService = new EmployeeService(employeeRepository);
+    void should_return_delete_message_when_delete_employee_given_id() {
         Employee employee = new Employee("Benny", 19, "male", 20000);
-        employeeRepository.addEmployee(employee);
+        employeeRepository.save(employee);
 
-        when(employeeRepository.deleteEmployeeById(1)).thenReturn(true);
-
+        doNothing().when(employeeRepository).deleteById(1);
 
         //when
-        boolean actual = employeeService.deleteEmployeeById(1);
+        employeeService.deleteEmployeeById(1);
 
         //then
-        assertTrue(actual);
+        verify(employeeRepository, times(1)).deleteById(1);
     }
 }

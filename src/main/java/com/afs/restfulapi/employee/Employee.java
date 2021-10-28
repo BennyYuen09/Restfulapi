@@ -1,6 +1,14 @@
-package com.afs.restfulapi;
+package com.afs.restfulapi.employee;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private Integer age;
@@ -9,7 +17,7 @@ public class Employee {
     private Integer companyId;
 
     public Employee(){
-        this(null, null, null, null);
+
     }
 
     public Employee(String name, Integer age, String gender, Integer salary) {
@@ -22,6 +30,15 @@ public class Employee {
 
     public Employee(String name, Integer age, String gender, Integer salary, Integer companyId) {
         this.id = null;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.salary = salary;
+        this.companyId = companyId;
+    }
+
+    public Employee(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -53,6 +70,14 @@ public class Employee {
         this.id = id;
     }
 
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
+
     public void updateData(Employee employee) {
         this.name = (employee.name != null)? employee.name : this.name;
         this.age = (employee.age != null)? employee.age : this.age;
@@ -61,15 +86,19 @@ public class Employee {
         this.companyId = (employee.companyId != null)? employee.companyId : this.companyId;
     }
 
-    @Override
-    public boolean equals(Object o){
-        if (this == o){
-            return true;
-        }
-        if (o instanceof Employee){
-            Employee employee = (Employee) o;
-            return this.id.equals(((Employee) o).id);
-        }
-        return false;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setSalary(Integer salary) {
+        this.salary = salary;
     }
 }
