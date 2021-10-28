@@ -1,0 +1,1 @@
+alter table company drop column gender;

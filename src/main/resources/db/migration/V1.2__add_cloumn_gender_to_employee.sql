@@ -1,0 +1,1 @@
+alter table company add column gender varchar(255) not null;
