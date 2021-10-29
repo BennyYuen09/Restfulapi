@@ -64,7 +64,7 @@ public class EmployeeServiceTest {
         when(employeeRepository.findAll(PageRequest.of(1, 1))).thenReturn(new PageImpl<>(expected));
 
         //when
-        List<Employee> actual = employeeService.getEmployeeListByPage(1, 1).toList();
+        List<Employee> actual = employeeService.getEmployeeListByPage(1, 1);
 
         //then
         assertEquals(expected, actual);
@@ -124,9 +124,6 @@ public class EmployeeServiceTest {
 
     @Test
     void should_return_delete_message_when_delete_employee_given_id() {
-        Employee employee = new Employee("Benny", 19, "male", 20000);
-        employeeRepository.save(employee);
-
         doNothing().when(employeeRepository).deleteById(1);
 
         //when

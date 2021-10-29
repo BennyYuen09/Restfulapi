@@ -45,15 +45,13 @@ public class EmployeeControllerTest {
                 "        \"id\": 1,\n" +
                 "        \"name\": \"Benny\",\n" +
                 "        \"age\": 19,\n" +
-                "        \"gender\": \"male\",\n" +
-                "        \"salary\": 20000\n" +
+                "        \"gender\": \"male\"\n" +
                 "    },\n" +
                 "    {\n" +
                 "        \"id\": 2,\n" +
                 "        \"name\": \"Tommy\",\n" +
                 "        \"age\": 22,\n" +
-                "        \"gender\": \"male\",\n" +
-                "        \"salary\": 20000\n" +
+                "        \"gender\": \"male\"\n" +
                 "    }\n" +
                 "]";
 
@@ -78,8 +76,7 @@ public class EmployeeControllerTest {
                         "    \"id\": 1,\n" +
                         "    \"name\": \"Benny\",\n" +
                         "    \"age\": 19,\n" +
-                        "    \"gender\": \"male\",\n" +
-                        "    \"salary\": 20000\n" +
+                        "    \"gender\": \"male\"\n" +
                         "}\n";
 
         //when
@@ -106,8 +103,7 @@ public class EmployeeControllerTest {
                 "        \"id\": 2,\n" +
                 "        \"name\": \"Tommy\",\n" +
                 "        \"age\": 22,\n" +
-                "        \"gender\": \"male\",\n" +
-                "        \"salary\": 20000\n" +
+                "        \"gender\": \"male\"\n" +
                 "    }\n" +
                 "]";
 
@@ -135,8 +131,7 @@ public class EmployeeControllerTest {
                 "        \"id\": 3,\n" +
                 "        \"name\": \"Mary\",\n" +
                 "        \"age\": 22,\n" +
-                "        \"gender\": \"female\",\n" +
-                "        \"salary\": 100000\n" +
+                "        \"gender\": \"female\"\n" +
                 "    }\n" +
                 "]";
 
@@ -163,8 +158,7 @@ public class EmployeeControllerTest {
                         "        \"id\": 1,\n" +
                         "        \"name\": \"Benny\",\n" +
                         "        \"age\": 19,\n" +
-                        "        \"gender\": \"male\",\n" +
-                        "        \"salary\": 20000\n" +
+                        "        \"gender\": \"male\"\n" +
                         "    }\n";
 
         //when
@@ -194,8 +188,7 @@ public class EmployeeControllerTest {
                         "        \"id\": 1,\n" +
                         "        \"name\": \"Benny\",\n" +
                         "        \"age\": 19,\n" +
-                        "        \"gender\": \"male\",\n" +
-                        "        \"salary\": 20000\n" +
+                        "        \"gender\": \"male\"\n" +
                         "    }\n";
 
         //when
