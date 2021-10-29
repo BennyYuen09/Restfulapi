@@ -1,7 +1,6 @@
 package com.afs.restfulapi.employee;
 
 import com.afs.restfulapi.exception.EmployeeNotFoundException;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -9,32 +8,33 @@ import java.util.List;
 
 @Service
 public class EmployeeService {
-    private final EmployeeRepositoryOld employeeRepository;
-    private final EmployeeRepository newEmployeeRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public EmployeeService(EmployeeRepositoryOld employeeRepository, EmployeeRepository newEmployeeRepository) {
-        this.employeeRepository = employeeRepository;
-        this.newEmployeeRepository = newEmployeeRepository;
+    public EmployeeService(EmployeeRepository newEmployeeRepository) {
+        this.employeeRepository = newEmployeeRepository;
     }
 
     public List<Employee> getEmployeeList() {
-        return this.newEmployeeRepository.findAll();
+        return this.employeeRepository.findAll();
     }
 
     public Employee getEmployeeById(int id) {
-        return this.newEmployeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
+        return this.employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
     }
 
-    public PageImpl<Employee> getEmployeeListByPage(int page, int pageSize) {
-        return (PageImpl<Employee>)this.newEmployeeRepository.findAll(PageRequest.of(page, pageSize));
+    //todo replace return type with list
+    public List<Employee> getEmployeeListByPage(int page, int pageSize) {
+        return this.employeeRepository
+                .findAll(PageRequest.of(page, pageSize))
+                .getContent();
     }
 
     public List<Employee> getEmployeeListByGender(String gender) {
-        return this.newEmployeeRepository.findAllByGender(gender);
+        return this.employeeRepository.findAllByGender(gender);
     }
 
     public Employee addEmployee(Employee employee) {
-        return this.newEmployeeRepository.save(employee);
+        return this.employeeRepository.save(employee);
     }
 
     public Employee updateEmployee(Integer id, Employee update) {
@@ -54,11 +54,10 @@ public class EmployeeService {
         if (update.getCompanyId() != null){
             employee.setCompanyId(update.getCompanyId());
         }
-        return this.newEmployeeRepository.save(employee);
+        return this.employeeRepository.save(employee);
     }
 
-    public boolean deleteEmployeeById(Integer id) {
-        this.newEmployeeRepository.deleteById(id);
-        return true;
+    public void deleteEmployeeById(Integer id) {
+        this.employeeRepository.deleteById(id);
     }
 }

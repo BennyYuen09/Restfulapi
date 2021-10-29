@@ -1,67 +1,85 @@
 package com.afs.restfulapi.company;
 
-import com.afs.restfulapi.exception.CompanyNotFoundException;
-import com.afs.restfulapi.employee.Employee;
+import com.afs.restfulapi.dto.CompanyRequest;
+import com.afs.restfulapi.dto.CompanyResponse;
+import com.afs.restfulapi.dto.EmployeeResponse;
+import com.afs.restfulapi.mapper.CompanyMapper;
+import com.afs.restfulapi.mapper.EmployeeMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
     private final CompanyService companyService;
+    private final CompanyMapper companyMapper;
+    private final EmployeeMapper employeeMapper;
 
-    public CompanyController(CompanyService companyService) {
+    public CompanyController(CompanyService companyService,
+                             CompanyMapper companyMapper,
+                             EmployeeMapper employeeMapper) {
         this.companyService = companyService;
+        this.companyMapper = companyMapper;
+        this.employeeMapper = employeeMapper;
     }
 
     @GetMapping
-    public List<Company> getCompanyList() {
-        return this.companyService.findAll();
+    public List<CompanyResponse> getCompanyList() {
+        return this.companyService.findAll()
+                .stream()
+                .map(companyMapper::toResponse)
+                .collect(Collectors.toList())
+                ;
     }
 
     @GetMapping("/{id}")
-    public Company getCompanyById(@PathVariable("id") Integer id) {
-        return this.companyService.findById(id);
+    public CompanyResponse getCompanyById(@PathVariable("id") Integer id) {
+        return companyMapper.toResponse(companyService.findById(id));
     }
 
     @GetMapping("/{id}/employees")
-    public List<Employee> getEmployeeListInCompanyById(@PathVariable("id") Integer id) {
-        return this.companyService.getEmployeeListInCompanyById(id);
+    public List<EmployeeResponse> getEmployeeListInCompanyById(@PathVariable("id") Integer id) {
+        return companyService.getEmployeeListInCompanyById(id)
+                .stream()
+                .map(employeeMapper::toResponse)
+                .collect(Collectors.toList())
+                ;
     }
 
     @RequestMapping(params = {"page", "pageSize"}, method = RequestMethod.GET)
-    public List<Company> getCompanyListByPage(@RequestParam(value = "page", defaultValue = "0") int page,
-                                              @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
-        return this.companyService.getCompanyListByPage(page, pageSize).toList();
+    public List<CompanyResponse> getCompanyListByPage(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                      @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
+        return companyService.getCompanyListByPage(page, pageSize).toList()
+                .stream()
+                .map(companyMapper::toResponse)
+                .collect(Collectors.toList())
+                ;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Company addCompany(@RequestBody Company company) {
-        return this.companyService.addCompany(company);
+    public CompanyResponse addCompany(@RequestBody CompanyRequest companyRequest) {
+        return companyMapper.toResponse(
+                companyService.addCompany(companyMapper.toEntity(companyRequest))
+        );
     }
 
     @PutMapping("/{id}")
-    public Company updateCompanyById(@PathVariable("id") Integer id, @RequestBody Company company) {
-        return this.companyService.updateCompanyById(id, company);
+    public CompanyResponse updateCompanyById(
+            @PathVariable("id") Integer id,
+            @RequestBody CompanyRequest companyRequest
+    ) {
+        Company company = companyService.updateCompanyById(id, companyMapper.toEntity(companyRequest));
+        return companyMapper.toResponse(company);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCompanyById(@PathVariable("id") Integer id) {
-        boolean isRemoved;
-
-        try {
-            isRemoved = this.companyService.deleteCompanyById(id);
-        } catch (CompanyNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
-
-        if (isRemoved) {
-            return new ResponseEntity<>("Deleted Company ID: " + " ID:  " + id, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        companyService.deleteCompanyById(id);
+        return new ResponseEntity<>("Deleted Company ID: " + " ID:  " + id, HttpStatus.OK);
     }
 }

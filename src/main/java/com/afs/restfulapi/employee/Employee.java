@@ -21,20 +21,10 @@ public class Employee {
     }
 
     public Employee(String name, Integer age, String gender, Integer salary) {
-        this.id = null;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
-    }
-
-    public Employee(String name, Integer age, String gender, Integer salary, Integer companyId) {
-        this.id = null;
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-        this.salary = salary;
-        this.companyId = companyId;
     }
 
     public Employee(Integer id, String name, Integer age, String gender, Integer salary, Integer companyId) {
@@ -76,14 +66,6 @@ public class Employee {
 
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
-    }
-
-    public void updateData(Employee employee) {
-        this.name = (employee.name != null)? employee.name : this.name;
-        this.age = (employee.age != null)? employee.age : this.age;
-        this.gender = (employee.gender != null)? employee.gender : this.gender;
-        this.salary = (employee.salary != null)? employee.salary : this.salary;
-        this.companyId = (employee.companyId != null)? employee.companyId : this.companyId;
     }
 
     public void setName(String name) {

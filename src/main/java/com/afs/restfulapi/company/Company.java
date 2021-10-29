@@ -15,6 +15,10 @@ public class Company {
     @OneToMany(mappedBy = "companyId")
     private List<Employee> employees;
 
+    public Company(){
+
+    }
+
     public Company(String name) {
         this.id = null;
         this.name = name;
@@ -60,10 +64,5 @@ public class Company {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
-    }
-
-    public void updateData(Company company) {
-        this.name = company.name;
-        this.employees = company.employees;
     }
 }
