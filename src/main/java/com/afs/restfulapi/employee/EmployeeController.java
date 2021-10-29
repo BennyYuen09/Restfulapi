@@ -23,7 +23,7 @@ public class EmployeeController {
 
     @GetMapping
     public List<EmployeeResponse> getEmployeeList() {
-        return this.employeeService
+        return employeeService
                 .getEmployeeList()
                 .stream()
                 .map(employeeMapper::toResponse)
@@ -37,10 +37,11 @@ public class EmployeeController {
     }
 
     @RequestMapping(params = {"page", "pageSize"}, method = RequestMethod.GET)
-    public List<EmployeeResponse> getEmployeeListByPage (
-                                    @RequestParam(value = "page", defaultValue = "0") int page,
-                                    @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
-        return this.employeeService
+    public List<EmployeeResponse> getEmployeeListByPage(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize
+    ) {
+        return employeeService
                 .getEmployeeListByPage(page, pageSize)
                 .stream()
                 .map(employeeMapper::toResponse)
@@ -49,8 +50,10 @@ public class EmployeeController {
     }
 
     @RequestMapping(params = {"gender"}, method = RequestMethod.GET)
-    public List<EmployeeResponse> getEmployeeListByGender(@RequestParam(value = "gender", defaultValue = "male") String gender) {
-        return this.employeeService
+    public List<EmployeeResponse> getEmployeeListByGender(
+            @RequestParam(value = "gender", defaultValue = "male") String gender
+    ) {
+        return employeeService
                 .getEmployeeListByGender(gender)
                 .stream()
                 .map(employeeMapper::toResponse)
