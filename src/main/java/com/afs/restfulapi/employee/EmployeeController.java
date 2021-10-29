@@ -60,8 +60,11 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Employee addEmployee(@RequestBody EmployeeRequest employeeRequest) {
-        return this.employeeService.addEmployee(employeeMapper.toEntity(employeeRequest));
+    public EmployeeResponse addEmployee(@RequestBody EmployeeRequest employeeRequest) {
+        Employee employee = employeeService.addEmployee(
+                employeeMapper.toEntity(employeeRequest)
+        );
+        return employeeMapper.toResponse(employee);
     }
 
     @PutMapping("/{id}")
