@@ -31,8 +31,8 @@ public class CompanyService {
         return employeeRepository.findAllByCompanyId(id);
     }
 
-    public PageImpl<Company> getCompanyListByPage(int page, int pageSize){
-        return (PageImpl<Company>) companyRepository.findAll(PageRequest.of(page, pageSize));
+    public List<Company> getCompanyListByPage(int page, int pageSize){
+        return companyRepository.findAll(PageRequest.of(page, pageSize)).getContent();
     }
 
     public Company addCompany(Company company) {

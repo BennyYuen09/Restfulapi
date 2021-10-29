@@ -9,15 +9,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(SpringExtension.class)
 public class CompanyServiceTest {
@@ -73,5 +78,60 @@ public class CompanyServiceTest {
 
         //then
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void should_return_correct_company_page_when_get_page_given_page_and_page_size() {
+        List<Company> expected = Collections.singletonList(
+                new Company("Axel")
+        );
+
+        when(companyRepository.findAll(PageRequest.of(1, 1))).thenReturn(new PageImpl<>(expected));
+
+        //when
+        List<Company> actual = companyService.getCompanyListByPage(1, 1);
+
+        //then
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void should_return_company_when_add_company_given_company() {
+        Company expected = new Company("Axel");
+        when(companyRepository.save(expected)).thenReturn(expected);
+
+        //when
+        Company actual = companyService.addCompany(expected);
+
+        //then
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void should_return_updated_company_when_update_company_by_id_given_id_and_company_info() {
+        Company company = new Company("Axel");
+        when(companyRepository.findById(any())).thenReturn(Optional.of(company));
+
+        Company updateInfo = new Company("Axel_Super");
+        Company updated = new Company("Axel_Super");
+
+        when(companyRepository.save(any(Company.class))).thenReturn(updated);
+
+        //when
+        Company actual = companyService.updateCompanyById(1, updateInfo);
+
+        //then
+        assertEquals("Axel_Super", actual.getName());
+    }
+
+    @Test
+    void should_return_delete_message_when_delete_employee_given_id() {
+        doNothing().when(companyRepository).deleteById(1);
+
+        //when
+        companyService.deleteCompanyById(1);
+
+        //then
+        verify(companyRepository, times(1)).deleteById(1);
     }
 }

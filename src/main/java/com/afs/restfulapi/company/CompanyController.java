@@ -53,7 +53,7 @@ public class CompanyController {
     @RequestMapping(params = {"page", "pageSize"}, method = RequestMethod.GET)
     public List<CompanyResponse> getCompanyListByPage(@RequestParam(value = "page", defaultValue = "0") int page,
                                                       @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
-        return companyService.getCompanyListByPage(page, pageSize).toList()
+        return companyService.getCompanyListByPage(page, pageSize)
                 .stream()
                 .map(companyMapper::toResponse)
                 .collect(Collectors.toList())

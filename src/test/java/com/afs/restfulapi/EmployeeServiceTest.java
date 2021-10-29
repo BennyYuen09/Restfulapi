@@ -88,13 +88,12 @@ public class EmployeeServiceTest {
 
     @Test
     void should_return_employee_when_add_employee_given_employee() {
-        Employee add = new Employee("Manny", 22, "male", 50000);
         Employee expected = new Employee("Manny", 22, "male", 50000);
         expected.setId(1);
-        when(employeeRepository.save(add)).thenReturn(expected);
+        when(employeeRepository.save(expected)).thenReturn(expected);
 
         //when
-        Employee actual = employeeService.addEmployee(add);
+        Employee actual = employeeService.addEmployee(expected);
 
         //then
         assertEquals(expected, actual);
@@ -114,7 +113,6 @@ public class EmployeeServiceTest {
         Employee actual = employeeService.updateEmployee(1, updateInfo);
 
         //then
-        assertNotNull(actual);
         assertEquals(1, actual.getId());
         assertEquals("Benny", actual.getName());
         assertEquals("male", actual.getGender());
