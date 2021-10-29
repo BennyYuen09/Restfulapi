@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
-//    @Query("select * from employee where companyId = ?1") wrong
-//    List<Employee> findEmployeesById(int id);
+
 }

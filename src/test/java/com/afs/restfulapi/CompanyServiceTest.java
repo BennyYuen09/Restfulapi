@@ -13,8 +13,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -38,6 +40,19 @@ public class CompanyServiceTest {
 
         //when
         List<Company> actual = companyService.findAll();
+
+        //then
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void should_return_correct_company_when_find_by_id_given_company_id() {
+        //given
+        Company expected = new Company("Axel");
+        when(companyRepository.findById(any())).thenReturn(Optional.of(expected));
+
+        //when
+        Company actual = companyService.findById(1);
 
         //then
         assertEquals(expected, actual);
