@@ -57,4 +57,21 @@ public class CompanyServiceTest {
         //then
         assertEquals(expected, actual);
     }
+
+    @Test
+    void should_return_employee_list_when_get_employee_list_given_company_id() {
+        //given
+        List<Employee> expected = Arrays.asList(
+                new Employee("Benny", 19, "male", 20000),
+                new Employee("Tommy", 22, "male", 20000),
+                new Employee("Mary", 22, "female", 100000)
+        );
+        when(employeeRepository.findAllByCompanyId(1)).thenReturn(expected);
+
+        //when
+        List<Employee> actual = companyService.getEmployeeListInCompanyById(1);
+
+        //then
+        assertEquals(expected, actual);
+    }
 }
