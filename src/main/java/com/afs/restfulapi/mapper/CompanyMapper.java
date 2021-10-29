@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 public class CompanyMapper {
     private EmployeeMapper employeeMapper;
 
+    public CompanyMapper(EmployeeMapper employeeMapper) {
+        this.employeeMapper = employeeMapper;
+    }
+
     public Company toEntity(CompanyRequest companyRequest) {
         Company company = new Company();
         BeanUtils.copyProperties(companyRequest, company);

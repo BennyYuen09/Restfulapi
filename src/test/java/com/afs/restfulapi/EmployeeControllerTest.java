@@ -205,10 +205,10 @@ public class EmployeeControllerTest {
         Employee employee = new Employee("Benny", 25, "male", 10000);
         employeeRepository.save(employee);
 
-        String expected = "Deleted Employee ID: 1";
+        String expected = "Deleted Employee ID: " + employee.getId();
 
         //when
-        ResultActions resultActions = mockMvc.perform(delete("/employees/1"));
+        ResultActions resultActions = mockMvc.perform(delete("/employees/"  + employee.getId()));
 
         //then
         resultActions.andExpect(status().isOk()).andExpect(content().string(expected));

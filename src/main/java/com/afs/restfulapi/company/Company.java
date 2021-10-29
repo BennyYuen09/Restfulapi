@@ -16,19 +16,13 @@ public class Company {
     private List<Employee> employees;
 
     public Company(){
-
+        employees = new ArrayList<>();
     }
 
     public Company(String name) {
         this.id = null;
         this.name = name;
         this.employees = new ArrayList<>();
-    }
-
-    public Company(String name, List<Employee> employeeList) {
-        this.id = null;
-        this.name = name;
-        this.employees = employeeList;
     }
 
     public List<Employee> getEmployees() {

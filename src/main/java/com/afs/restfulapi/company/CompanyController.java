@@ -80,6 +80,6 @@ public class CompanyController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCompanyById(@PathVariable("id") Integer id) {
         companyService.deleteCompanyById(id);
-        return new ResponseEntity<>("Deleted Company ID: " + " ID:  " + id, HttpStatus.OK);
+        return new ResponseEntity<>("Deleted Company ID: " + id, HttpStatus.OK);
     }
 }
