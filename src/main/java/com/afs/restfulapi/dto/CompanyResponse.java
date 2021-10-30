@@ -1,5 +1,6 @@
 package com.afs.restfulapi.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyResponse {
@@ -8,6 +9,7 @@ public class CompanyResponse {
     private List<EmployeeResponse> employees;
 
     public CompanyResponse() {
+        employees = new ArrayList<>();
     }
 
     public Integer getId() {

@@ -1,7 +1,5 @@
 package com.afs.restfulapi.dto;
 
-import com.afs.restfulapi.employee.Employee;
-
 public class EmployeeResponse {
     private Integer id;
     private String name;
@@ -9,13 +7,6 @@ public class EmployeeResponse {
     private String gender;
 
     public EmployeeResponse() {
-    }
-
-    public EmployeeResponse(Employee employee) {
-        this.id = employee.getId();
-        this.name = employee.getName();
-        this.age = employee.getAge();
-        this.gender = employee.getGender();
     }
 
     public String getName() {

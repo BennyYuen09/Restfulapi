@@ -1,0 +1,1 @@
+alter table employee rename column companyId to company_id
